@@ -1,51 +1,36 @@
 package com.example;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.WindowType;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import java.time.Duration;
 
 public class App {
-    public static void main(String[] args) {
-        FirefoxOptions options = new FirefoxOptions();
-        
-        // If you need to set the binary location manually (if Firefox is not in the default path)
-        // options.setBinary("/usr/bin/firefox");
-        
-        options.addArguments("-private");  // Open Firefox in private browsing mode
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
 
-        // Initialize WebDriver (FirefoxDriver)
-        WebDriver driver = new FirefoxDriver(options);
+    public static void main(String[] args) throws InterruptedException {
 
-        // WebDriverWait is now used with Duration directly in the constructor
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        System.setProperty("webdriver.gecko.driver", "/usr/local/bin/geckodriver");
 
-        try {
-            driver.manage().window().maximize();  // Maximize the browser window
+        WebDriver driver = new FirefoxDriver();
 
-            // Open the first URL
-            driver.get("https://www.firefox.com");
+        driver.manage().window().maximize();
 
-            // Open a new tab and switch to it
-            driver.switchTo().newWindow(WindowType.TAB);
+        // Open first website
+        driver.get("https://www.saucedemo.com/");
+        Thread.sleep(5000);
 
-            // Open the second URL in the new tab
-            driver.get("https://www.amazon.in");
+        // Open second website
+        driver.switchTo().newWindow(WindowType.TAB);
+        driver.get("https://automationexercise.com/");
+        Thread.sleep(5000);
 
-            // Wait for the search box to be clickable and then enter text
-            wait.until(ExpectedConditions.elementToBeClickable(By.id("twotabsearchtextbox"))).sendKeys("shirt");
+        // Open third website
+        driver.switchTo().newWindow(WindowType.TAB);
+        driver.get("https://practicetestautomation.com/");
+        Thread.sleep(5000);
 
-            // Wait for the search button to be clickable and then click it
-            wait.until(ExpectedConditions.elementToBeClickable(By.id("nav-search-submit-button"))).click();
+        // Keep browser open for 10 seconds
+        Thread.sleep(10000);
 
-        } finally {
-            driver.quit();  // Quit the driver, closing the browser
-        }
+        driver.quit();
     }
 }
